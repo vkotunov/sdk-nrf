@@ -42,6 +42,12 @@ static int sensor_read(struct sensor_value measurements[])
 {
 	int ret;
 
+	ret = sensor_sample_fetch(light_sensor_dev);
+	if (ret) {
+		LOG_ERR("Fetch light sensor sample failed (%d)", ret);
+		return ret;
+	}
+
 	ret = sensor_channel_get(light_sensor_dev, SENSOR_CHAN_IR, &measurements[0]);
 	if (ret) {
 		LOG_ERR("Get IR channel failed (%d)", ret);
